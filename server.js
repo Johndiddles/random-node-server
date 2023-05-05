@@ -114,6 +114,7 @@ app.post("/api/v1/login", async (req, res) => {
             httpOnly: true,
             secure: true,
             sameSite: "none",
+            domain: "*",
           });
 
           res.status(200).json({
@@ -156,6 +157,8 @@ app.get("/api/v1/verify", (req, res) => {
 
 app.get("/api/v1/renew-access-token", (req, res) => {
   const refreshToken = req.cookies?.refreshToken ?? "";
+
+  console.log({ refreshToken });
   if (refreshToken) {
     // decode refreshToken
     const current_time = Math.floor(new Date(Date.now()));
