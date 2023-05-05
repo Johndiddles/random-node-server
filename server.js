@@ -186,6 +186,7 @@ app.get("/api/v1/renew-access-token", (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "none",
+        domain: "*",
       });
       res.status(200).json({ message: "verified", token: accessToken });
     }
