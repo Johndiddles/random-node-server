@@ -32,6 +32,14 @@ const connectToDB = async () => {
 
 connectToDB();
 
+const cookieOptions = {
+  expires: new Date(Date.now() + 900000),
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  domain: "*",
+};
+
 app.get("/", (req, res) => {
   res.status(200).json({
     message: "",
@@ -108,14 +116,7 @@ app.post("/api/v1/login", async (req, res) => {
             { expiresIn: "15s" }
           );
 
-          res.cookie("refreshToken", refreshToken, {
-            expires: Math.floor(new Date(Date.now()) + 90000),
-            // maxAge: 60 * 5,
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            domain: "*",
-          });
+          res.cookie("refreshToken", refreshToken, cookieOptions);
 
           res.status(200).json({
             message: "success",
@@ -181,13 +182,7 @@ app.get("/api/v1/renew-access-token", (req, res) => {
         { expiresIn: "15s" }
       );
 
-      res.cookie("refreshToken", refreshToken, {
-        expires: new Date(Date.now() + 900000),
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        domain: "*",
-      });
+      res.cookie("refreshToken", refreshToken, cookieOptions);
       res.status(200).json({ message: "verified", token: accessToken });
     }
   } else {
