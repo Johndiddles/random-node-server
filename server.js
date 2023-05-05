@@ -37,7 +37,7 @@ const cookieOptions = {
   httpOnly: true,
   secure: true,
   sameSite: "none",
-  domain: "*",
+  domain: "*, https://http-only-cookie-js.vercel.app/",
 };
 
 app.get("/", (req, res) => {
@@ -115,6 +115,8 @@ app.post("/api/v1/login", async (req, res) => {
             process.env.JWT_REFRESH_SECRET,
             { expiresIn: "15s" }
           );
+
+          console.log({ refreshToken });
 
           res.cookie("refreshToken", refreshToken, cookieOptions);
 
